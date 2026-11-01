@@ -1,0 +1,123 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="content">
+    <div class="container-fluid">
+
+        <h4 class="page-title">Org. Members</h4>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <div class="card-title">List of Organization Members</div>
+                        <div class="card-category">Page Subtitle</div>
+                    </div>
+
+                   <div class="card-body">
+
+    <div class="mb-3">
+        <a href="{% url 'orgmember-add' %}" class="btn btn-success">
+            Add Org. Member
+        </a>
+    </div>
+
+<form class="navbar-left navbar-form nav-search mr-md-3"
+      action="{% url 'orgmember-list' %}"
+      method="get">
+
+    <div class="input-group">
+        <input type="text"
+               placeholder="Search ..."
+               class="form-control"
+               name="q"
+               value="{{ request.GET.q }}">
+
+        <div class="input-group-append">
+            <button type="submit" class="input-group-text border-0">
+                <i class="la la-search search-icon"></i>
+            </button>
+        </div>
+    </div>
+
+</form>
+
+<form method="get" class="mb-3">
+    <label for="sort_by">Sort by:</label>
+
+    <select name="sort_by" id="sort_by" onchange="this.form.submit()">
+        <option value="student__lastname"
+            {% if request.GET.sort_by == "student__lastname" %}selected{% endif %}>
+            Student Name
+        </option>
+
+        <option value="date_joined"
+            {% if request.GET.sort_by == "date_joined" %}selected{% endif %}>
+            Date Joined
+        </option>
+    </select>
+</form>
+
+    <table class="table table-striped mt-3">
+
+                       
+
+                           <thead>
+    <tr>
+        <th>Student</th>
+        <th>Organization</th>
+        <th>Date Joined</th>
+        <th>Action</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    {% for object in object_list %}
+
+    <tr>
+    <td>{{ object.student }}</td>
+    <td>{{ object.organization }}</td>
+    <td>{{ object.date_joined }}</td>
+    <td>
+        <a href="{% url 'orgmember-update' object.id %}">
+            Edit
+        </a>
+
+        <a href="{% url 'orgmember-delete' object.id %}"
+          class="text-danger">
+        Delete
+         </a>
+    </td>
+</tr>
+            
+    {% empty %}
+
+    <tr>
+        <td colspan="4">No Records Found</td>
+    </tr>
+
+    {% endfor %}
+
+</tbody>
+
+                        </table>
+
+                        {% include 'includes/pagination.html' %}
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

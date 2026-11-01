@@ -1,0 +1,5 @@
+﻿services:
+  web:
+    image: reynaldzxc/psusphere:latest
+    ports:
+      - "8000:8000"
